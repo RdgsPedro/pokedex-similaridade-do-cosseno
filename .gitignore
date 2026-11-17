@@ -1,1 +1,10 @@
- 
+dados/brutos/
+
+# Arquivos que o Python cria sozinho
+__pycache__/
+*.pyc
+
+# Ambiente virtual e notebooks, se alguém usar
+.venv/
+venv/
+.ipynb_checkpoints/
