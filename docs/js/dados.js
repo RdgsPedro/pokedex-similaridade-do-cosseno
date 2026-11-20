@@ -1,5 +1,7 @@
 // Dados do site: os arquivos que a parte de matemática gera, em docs/dados_front/.
 
+import { chaveDeBusca } from "./ui.js";
+
 // As 9 regiões, com o intervalo de números da Pokédex Nacional de cada uma.
 export const REGIOES = [
   { geracao: 1, nome: "Kanto", inicio: 1, fim: 151 },
@@ -13,15 +15,34 @@ export const REGIOES = [
   { geracao: 9, nome: "Paldea", inicio: 906, fim: 1025 },
 ];
 
+/** Baixa um JSON. Se der errado, o erro diz o que aconteceu, para a tela de erro mostrar. */
+async function baixarJson(caminho) {
+  let resposta;
+  try {
+    resposta = await fetch(caminho);
+  } catch {
+    throw new Error(`Não deu para pedir o arquivo docs/${caminho} ao servidor.`);
+  }
+  if (!resposta.ok) {
+    throw new Error(`O arquivo docs/${caminho} não foi encontrado (código ${resposta.status}).`);
+  }
+  try {
+    return await resposta.json();
+  } catch {
+    throw new Error(`O arquivo docs/${caminho} está vazio ou não é um JSON válido.`);
+  }
+}
+
 /** Baixa o pokemon.json (uma vez só, ao abrir o site). */
 export async function carregarPokemon() {
-  const resposta = await fetch("dados_front/pokemon.json");
-  if (!resposta.ok) {
-    throw new Error(`pokemon.json respondeu com o código ${resposta.status}`);
-  }
-  const dados = await resposta.json();
+  const dados = await baixarJson("dados_front/pokemon.json");
 
   // Um "índice" por número: assim dá para achar o Pokémon 25 sem percorrer a lista toda.
   dados.porId = new Map(dados.pokemon.map((pokemon) => [pokemon.id, pokemon]));
+
+  // O nome pronto para a busca: "Mr. Mime" vira "mrmime".
+  for (const pokemon of dados.pokemon) {
+    pokemon.chave = chaveDeBusca(pokemon.nome);
+  }
   return dados;
 }

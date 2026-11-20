@@ -28,6 +28,13 @@
             <img src="favicon.svg" alt="" width="44" height="44">
             <span class="marca-nome">Parecidex</span>
         </a>
+        <div class="busca" role="search">
+            <label class="oculto" for="busca-campo">Buscar Pokémon por nome ou número</label>
+            <input id="busca-campo" class="busca-campo" type="search" placeholder="Buscar por nome ou número"
+                autocomplete="off" spellcheck="false" disabled role="combobox" aria-expanded="false"
+                aria-controls="busca-lista" aria-autocomplete="list">
+            <ul id="busca-lista" class="busca-lista" role="listbox" aria-label="Sugestões" hidden></ul>
+        </div>
         <nav class="menu" aria-label="Páginas do site">
             <a href="#/" data-pagina="pokedex">Pokédex</a>
             <a href="#/equipe" data-pagina="equipe">Equipe</a>

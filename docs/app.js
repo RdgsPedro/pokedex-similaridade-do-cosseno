@@ -3,6 +3,9 @@
 
 import { carregarPokemon } from "./js/dados.js";
 import { mostrarPokedex } from "./js/pokedex.js";
+import { mostrarPokemon } from "./js/pokemon.js";
+import { iniciarBusca } from "./js/busca.js";
+import { escapar } from "./js/ui.js";
 
 const conteudo = document.querySelector("#conteudo");
 let dados = null;
@@ -15,25 +18,31 @@ async function iniciar() {
         dados = await carregarPokemon();
     } catch (erro) {
         console.error(erro);
-        mostrarErro();
+        mostrarErro(erro);
         return;
     }
 
     // Enquanto a matemática não entrega os arquivos definitivos, o rodapé avisa.
     document.querySelector(".aviso-exemplo").hidden = !dados.exemplo;
 
+    iniciarBusca(dados);
     window.addEventListener("hashchange", () => mostrarPagina(true));
     mostrarPagina(false);
 }
 
 /** Lê o endereço e mostra a página. `trocou` é verdadeiro quando a pessoa clicou num link. */
 function mostrarPagina(trocou) {
-    // "#/regiao/3" -> pagina = "regiao", parametro = "3"
+    // "#/pokemon/25" -> pagina = "pokemon", parametro = "25"
     const [pagina, parametro] = location.hash.replace(/^#\/?/, "").split("/");
+    document.title = "Parecidex: Pokémon parecidos pela similaridade do cosseno";
 
     if (pagina === "" || pagina === "regiao") {
-        mostrarPokedex(conteudo, dados, Number(parametro) || 1);
+        // "#/regiao/todas" mostra as 9 regiões; "#/regiao/3", só Hoenn
+        mostrarPokedex(conteudo, dados, parametro === "todas" ? "todas" : Number(parametro) || 1);
         marcarMenu("pokedex");
+    } else if (pagina === "pokemon") {
+        mostrarPokemon(conteudo, dados, Number(parametro));
+        marcarMenu(""); // a página do Pokémon não tem botão no menu
     } else {
         mostrarEmBreve();
         marcarMenu(pagina);
@@ -65,13 +74,14 @@ function mostrarCarregando() {
     </div>`;
 }
 
-function mostrarErro() {
+/** A tela de erro diz o que deu errado (arquivo vazio, faltando...) e o que conferir. */
+function mostrarErro(erro) {
     conteudo.innerHTML = `
     <section class="erro" role="alert">
       <h1>Os dados não carregaram</h1>
-      <p>Aberto direto do computador, o site não consegue ler os dados: o navegador bloqueia.
-        Na pasta do projeto, rode <code>py -m http.server 8000 --directory docs</code>
-        e abra <a href="http://localhost:8000">http://localhost:8000</a>.</p>
+      <p>${escapar(erro.message)}</p>
+      <p>Confira se os 3 arquivos estão em <code>docs/dados_front/</code> e se o site foi aberto por um servidor
+        (o Live Server do VS Code, ou <code>py -m http.server 8000 --directory docs</code>).</p>
     </section>`;
 }
 
