@@ -53,7 +53,22 @@ Uma linha por Pokémon: 1025 linhas e 21 colunas, ordenadas por `id`. Só o `tip
 
 Os 18 tipos: Normal, Fogo, Água, Planta, Elétrico, Gelo, Lutador, Venenoso, Terrestre, Voador, Psíquico, Inseto, Pedra, Fantasma, Dragão, Sombrio, Aço, Fada. A PokéAPI não traz os tipos em português do Brasil; a tradução é feita no `limpar.py`.
 
-A tabela com os textos da Pokédex (`descricoes.csv`) entra neste contrato no próximo commit.
+## `dados/processados/descricoes.csv`
+
+Os textos da Pokédex, em inglês: a PokéAPI não tem textos em português do Brasil, e o inglês é o único idioma com textos para os 1025 Pokémon. Uma linha por texto: 7486 linhas e 3 colunas, ordenadas por `id` e, dentro de cada Pokémon, do jogo mais antigo para o mais novo. Todo Pokémon tem pelo menos 1 texto (de 1 a 23, com média de 7,3). Nenhuma coluna vem vazia.
+
+| coluna | tipo | o que é | exemplo (Pikachu) |
+|---|---|---|---|
+| `id` | inteiro, 1 a 1025 | número na Pokédex Nacional; liga cada texto à linha do Pokémon no `pokemon.csv` | 25 |
+| `versao` | texto | jogo de onde o texto veio, com o nome usado pela PokéAPI (por exemplo red, gold, sword e scarlet) | red |
+| `texto` | texto | o texto já limpo, numa linha só (de 49 a 235 caracteres) | When several of these Pokémon gather, their electricity could build and cause lightning storms. |
+
+O que a limpeza faz com os textos:
+
+- junta numa linha só o que os jogos antigos quebram em várias, inclusive as palavras partidas no fim da linha;
+- escreve como nos jogos novos: Pokémon em vez de POKéMON, Pikachu em vez de PIKACHU e Berries em vez de BERRIES. Siglas como TV e DNA continuam em maiúsculas;
+- troca o apóstrofo curvo (’) pelo simples ('), como no `nome` do `pokemon.csv`;
+- deixa uma vez só o texto que se repete em vários jogos, com a `versao` do jogo mais antigo. Dos 14496 textos em inglês da API, 7486 são diferentes.
 
 ## Como gerar de novo
 
