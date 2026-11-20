@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Parecidex: Pokémon parecidos pela similaridade do cosseno</title>
+    <meta name="description"
+        content="Escolha um Pokémon e veja os mais parecidos com ele, pelos atributos e tipos ou pela descrição da Pokédex. Trabalho de Álgebra Linear da Fatec Rubens Lara.">
+    <meta name="theme-color" content="#F5F8FC">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+    <!-- Fontes: Jersey 10 (pixelada) só nos títulos e números; Atkinson Hyperlegible no resto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Jersey+10&display=swap">
+
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js"></script>
+</head>
+
+<body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="topo">
+        <a class="marca" href="#/">
+            <img src="favicon.svg" alt="" width="44" height="44">
+            <span class="marca-nome">Parecidex</span>
+        </a>
+        <nav class="menu" aria-label="Páginas do site">
+            <a href="#/" data-pagina="pokedex">Pokédex</a>
+            <a href="#/equipe" data-pagina="equipe">Equipe</a>
+            <a href="#/como-funciona" data-pagina="como-funciona">Como funciona</a>
+        </nav>
+    </header>
+
+    <!-- O app.js troca o que aparece aqui conforme o endereço (#/, #/regiao/2...) -->
+    <main id="conteudo" tabindex="-1"></main>
+
+    <footer class="rodape">
+        <p>Dados: <a href="https://pokeapi.co">PokéAPI</a>. Pokémon e os nomes dos Pokémon são marcas da Nintendo,
+            Creatures e Game Freak. Trabalho acadêmico, sem fins comerciais.</p>
+        <p class="aviso-exemplo" hidden>Dados de exemplo: os números definitivos chegam quando a parte de matemática
+            terminar.</p>
+    </footer>
+</body>
+
+</html>

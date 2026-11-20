@@ -1,0 +1,580 @@
+/* =====================================================================
+   Parecidex: estilos do site
+   A ideia do visual: cartas de colecionar sobre papel quadriculado,
+   como num caderno de matemática. Cada tipo de Pokémon tem a sua cor.
+   Cada seção traz as próprias regras de celular, logo depois dela.
+   ===================================================================== */
+
+:root {
+    /* Cores da página */
+    --papel: #F5F8FC;
+    /* fundo, como papel quadriculado */
+    --quadriculado: #E2E9F2;
+    /* linhas finas do papel */
+    --quadriculado-forte: #CFDAE8;
+    /* linha mais forte a cada 5 quadrados */
+    --tinta: #1E2A4A;
+    /* texto e contornos */
+    --tinta-suave: #56627F;
+    /* texto secundário */
+    --carta: #FFFFFF;
+    /* fundo das cartas */
+    --marca-texto: #FF5C8A;
+    /* destaque: aba aberta e foco do teclado */
+
+    /* Cores dos 18 tipos. O texto em cima delas fica escuro (--tinta) ou
+     branco, o que der mais contraste (sempre pelo menos 4,5 : 1). */
+    --c-normal: #A8A77A;
+    --c-fogo: #EE8130;
+    --c-agua: #6390F0;
+    --c-planta: #7AC74C;
+    --c-eletrico: #F7D02C;
+    --c-gelo: #96D9D6;
+    --c-lutador: #C22E28;
+    --c-venenoso: #A33EA1;
+    --c-terrestre: #E2BF65;
+    --c-voador: #A98FF3;
+    --c-psiquico: #F95587;
+    --c-inseto: #A6B91A;
+    --c-pedra: #B6A136;
+    --c-fantasma: #735797;
+    --c-dragao: #6F35FC;
+    --c-sombrio: #705746;
+    --c-aco: #B7B7CE;
+    --c-fada: #D685AD;
+
+    /* Fontes: a pixelada só em títulos e números */
+    --fonte-titulo: "Jersey 10", ui-monospace, monospace;
+    --fonte-texto: "Atkinson Hyperlegible", system-ui, sans-serif;
+
+    --raio: 12px;
+    --contorno: 2px solid var(--tinta);
+}
+
+/* ---------------------------------------------------------------- base */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: var(--fonte-texto);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--tinta);
+    background-color: var(--papel);
+    /* O papel quadriculado: uma linha a cada 24 px e uma mais forte a cada 120 px */
+    background-image:
+        linear-gradient(var(--quadriculado-forte) 1px, transparent 1px),
+        linear-gradient(90deg, var(--quadriculado-forte) 1px, transparent 1px),
+        linear-gradient(var(--quadriculado) 1px, transparent 1px),
+        linear-gradient(90deg, var(--quadriculado) 1px, transparent 1px);
+    background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    width: min(100% - 32px, 1180px);
+    margin: 0 auto;
+    padding-bottom: 48px;
+}
+
+main:focus {
+    outline: none;
+}
+
+a {
+    color: inherit;
+}
+
+img {
+    display: block;
+}
+
+/* Foco do teclado bem visível em tudo que é clicável */
+:focus-visible {
+    outline: 3px solid var(--marca-texto);
+    outline-offset: 3px;
+}
+
+/* Link escondido que aparece com o Tab: pula direto para o conteúdo */
+.pular {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: 10;
+    padding: 10px 16px;
+    background: var(--tinta);
+    color: #FFFFFF;
+    border-radius: 8px;
+}
+
+.pular:focus {
+    top: 12px;
+}
+
+/* ---------------------------------------------------------------- topo */
+
+/* Três áreas: a marca, a busca (que chega na etapa 2) e o menu */
+.topo {
+    width: min(100% - 32px, 1180px);
+    margin: 0 auto;
+    padding: 20px 0 8px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "marca busca menu";
+    align-items: center;
+    gap: 12px 24px;
+}
+
+.marca {
+    grid-area: marca;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.marca-nome {
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 1.8rem + 2.6vw, 3.4rem);
+    line-height: 1;
+}
+
+.menu {
+    grid-area: menu;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.menu a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    background: var(--carta);
+}
+
+.menu a[aria-current="page"] {
+    background: var(--tinta);
+    color: #FFFFFF;
+}
+
+@media (max-width: 900px) {
+    .topo {
+        grid-template-columns: 1fr auto;
+        grid-template-areas: "marca menu" "busca busca";
+    }
+}
+
+@media (max-width: 560px) {
+    .topo {
+        grid-template-columns: 1fr;
+        grid-template-areas: "marca" "menu" "busca";
+    }
+
+    .menu a {
+        padding: 0 12px;
+    }
+}
+
+/* ---------------------------------------------------------------- página inicial */
+
+.intro {
+    max-width: 46ch;
+    margin: 8px 0 24px;
+    font-size: 1.125rem;
+    color: var(--tinta-suave);
+}
+
+/* Abas das regiões, como as abas de um fichário */
+.regioes {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding: 4px 2px 0;
+    margin: 0 -2px;
+    border-bottom: var(--contorno);
+}
+
+.regiao {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    min-height: 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6px 14px;
+    border: var(--contorno);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+    background: color-mix(in srgb, var(--carta) 55%, transparent);
+    text-decoration: none;
+    line-height: 1.15;
+}
+
+.regiao:hover {
+    background: var(--carta);
+}
+
+.regiao-nome {
+    font-weight: 700;
+}
+
+.regiao-faixa {
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+}
+
+.regiao[aria-current="page"] {
+    background: var(--carta);
+    box-shadow: inset 0 -5px 0 var(--marca-texto);
+}
+
+.secao-regiao {
+    padding-top: 28px;
+}
+
+.titulo-regiao {
+    margin: 0;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: clamp(2.8rem, 2rem + 3vw, 4rem);
+    line-height: 0.9;
+}
+
+.subtitulo {
+    margin: 8px 0 24px;
+    color: var(--tinta-suave);
+}
+
+.grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 560px) {
+    .grade {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+}
+
+/* ---------------------------------------------------------------- cartas */
+
+.carta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px 12px;
+    overflow: hidden;
+    color: var(--tinta);
+    text-decoration: none;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: var(--raio);
+    box-shadow: 0 3px 0 var(--tinta);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.carta:hover,
+.carta:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 var(--tinta);
+}
+
+.carta:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 var(--tinta);
+}
+
+/* A faixa no alto da carta tem a cor do tipo; com dois tipos, metade de cada */
+.carta-faixa {
+    align-self: stretch;
+    height: 10px;
+    margin: 0 -8px;
+    background: linear-gradient(90deg, var(--cor1) 50%, var(--cor2, var(--cor1)) 50%);
+    border-bottom: var(--contorno);
+}
+
+.carta-imagem {
+    width: 104px;
+    height: 104px;
+    margin-top: 10px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--cor1) 22%, var(--carta));
+}
+
+.carta-imagem img {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+    /* os sprites são pixel art: sem borrar */
+}
+
+.carta-numero {
+    margin-top: 6px;
+    font-family: var(--fonte-titulo);
+    font-size: 1.3rem;
+    line-height: 1;
+    color: var(--tinta-suave);
+}
+
+.carta-nome {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.carta-tipos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+/* As primeiras cartas chegam como se fossem distribuídas na mesa */
+.carta.distribuir {
+    animation: distribuir 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+    animation-delay: calc(var(--ordem) * 28ms);
+}
+
+@keyframes distribuir {
+    from {
+        opacity: 0;
+        transform: translateY(18px) rotate(-4deg) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------------------------------------------------------------- selos de tipo */
+
+.tipo {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.4;
+    background: var(--cor);
+    color: var(--cor-texto, var(--tinta));
+}
+
+.tipo-normal {
+    --cor: var(--c-normal);
+}
+
+.tipo-fogo {
+    --cor: var(--c-fogo);
+}
+
+.tipo-agua {
+    --cor: var(--c-agua);
+}
+
+.tipo-planta {
+    --cor: var(--c-planta);
+}
+
+.tipo-eletrico {
+    --cor: var(--c-eletrico);
+}
+
+.tipo-gelo {
+    --cor: var(--c-gelo);
+}
+
+.tipo-lutador {
+    --cor: var(--c-lutador);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-venenoso {
+    --cor: var(--c-venenoso);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-terrestre {
+    --cor: var(--c-terrestre);
+}
+
+.tipo-voador {
+    --cor: var(--c-voador);
+}
+
+.tipo-psiquico {
+    --cor: var(--c-psiquico);
+}
+
+.tipo-inseto {
+    --cor: var(--c-inseto);
+}
+
+.tipo-pedra {
+    --cor: var(--c-pedra);
+}
+
+.tipo-fantasma {
+    --cor: var(--c-fantasma);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-dragao {
+    --cor: var(--c-dragao);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-sombrio {
+    --cor: var(--c-sombrio);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-aco {
+    --cor: var(--c-aco);
+}
+
+.tipo-fada {
+    --cor: var(--c-fada);
+}
+
+/* ---------------------------------------------------------------- carregando, erro e em construção */
+
+.carregando {
+    min-height: 60vh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.carregando-sprite {
+    width: 192px;
+    height: 192px;
+    image-rendering: pixelated;
+    animation: pular 0.7s cubic-bezier(0.3, 0, 0.6, 1) infinite alternate;
+}
+
+.carregando-sombra {
+    width: 96px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--tinta);
+    opacity: 0.18;
+    animation: sombra 0.7s cubic-bezier(0.3, 0, 0.6, 1) infinite alternate;
+}
+
+.carregando p {
+    margin: 16px 0 0;
+    font-family: var(--fonte-titulo);
+    font-size: 1.9rem;
+}
+
+@keyframes pular {
+    to {
+        transform: translateY(-36px);
+    }
+}
+
+@keyframes sombra {
+    to {
+        transform: scale(0.6);
+        opacity: 0.08;
+    }
+}
+
+.erro,
+.em-breve {
+    max-width: 60ch;
+    margin: 48px auto;
+    padding: 24px;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: var(--raio);
+    box-shadow: 0 3px 0 var(--tinta);
+}
+
+.erro h1,
+.em-breve h1 {
+    margin: 0 0 12px;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: 2.4rem;
+    line-height: 1;
+}
+
+code {
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: var(--papel);
+    font-size: 0.9375em;
+}
+
+/* ---------------------------------------------------------------- rodapé */
+
+.rodape {
+    width: min(100% - 32px, 1180px);
+    margin: 0 auto;
+    padding: 24px 0 32px;
+    border-top: var(--contorno);
+    font-size: 0.875rem;
+    color: var(--tinta-suave);
+}
+
+.rodape p {
+    margin: 0 0 6px;
+    max-width: 80ch;
+}
+
+.aviso-exemplo {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: var(--carta);
+    border: 1px dashed var(--tinta-suave);
+}
+
+.aviso-exemplo[hidden] {
+    display: none;
+}
+
+/* ---------------------------------------------------------------- menos movimento */
+
+/* Quem pediu ao sistema para reduzir animações não vê pulos nem cartas voando */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
