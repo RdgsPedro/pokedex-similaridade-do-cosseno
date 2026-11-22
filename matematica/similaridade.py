@@ -244,13 +244,13 @@ def avaliar_vizinhos(
 
         for p in pokemon_lista:
             tipos_p = set(p["tipos"])
-            fam_p = p["status"]["familia"]
+            fam_p = p["familia"]
 
             for viz in p["vizinhos"][modo]:
                 q = mapa_por_id[viz["id"]]
                 if tipos_p & set(q["tipos"]):
                     mesmo_tipo_count += 1
-                if fam_p == q["status"]["familia"]:
+                if fam_p == q["familia"]:
                     mesma_familia_count += 1
 
         resultado[modo] = {
@@ -336,13 +336,13 @@ def main() -> None:
                 "defesa_especial": int(row.defesa_especial),
                 "velocidade": int(row.velocidade),
                 "total": int(row.total),
-                "altura_m": float(row.altura_m),
-                "peso_kg": float(row.peso_kg),
-                "lendario": to_bool(row.lendario),
-                "mitico": to_bool(row.mitico),
-                "bebe": to_bool(row.bebe),
-                "familia": int(row.familia),
             },
+            "altura_m": float(row.altura_m),
+            "peso_kg": float(row.peso_kg),
+            "lendario": to_bool(row.lendario),
+            "mitico": to_bool(row.mitico),
+            "bebe": to_bool(row.bebe),
+            "familia": int(row.familia),
             "imagem": str(row.imagem),
             "sprite": str(row.sprite),
             "textos": textos_por_id.get(pid, []),
