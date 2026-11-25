@@ -217,7 +217,7 @@ function tabela(membros, matriz) {
     const linhas = membros.map((pokemon, i) => `
     <tr>
       <th scope="row">${imagem(pokemon)}</th>
-      ${matriz[i].map((valor) => `<td style="${corDaCelula(valor)}">${decimal(valor)}</td>`).join("")}
+      ${matriz[i].map((valor, j) => `<td style="${corDaCelula(valor, i === j)}">${decimal(valor)}</td>`).join("")}
     </tr>`).join("");
     return `
     <table class="matriz">
@@ -227,12 +227,16 @@ function tabela(membros, matriz) {
     </table>`;
 }
 
-/** Azul para cosseno positivo, rosa para negativo. Quanto mais longe de 0, mais forte a cor. */
-function corDaCelula(valor) {
-    const forca = Math.min(Math.abs(valor), 1) * 0.9;
+/**
+ * Azul para cosseno positivo, rosa para negativo. Quanto mais longe de 0, mais forte a cor.
+ * A cor vai no máximo até 55%, para o texto escuro continuar legível (contraste de pelo menos 5,9 : 1).
+ * A diagonal (cada Pokémon com ele mesmo, sempre 1) fica escura, com o número em branco.
+ */
+function corDaCelula(valor, diagonal) {
+    if (diagonal) return "background: var(--tinta); color: #FFFFFF;";
+    const forca = Math.min(Math.abs(valor), 1) * 0.55;
     const cor = valor >= 0 ? `rgba(58, 91, 217, ${forca})` : `rgba(229, 51, 109, ${forca})`;
-    const texto = forca > 0.5 ? "#FFFFFF" : "var(--tinta)";
-    return `background: ${cor}; color: ${texto};`;
+    return `background: ${cor}; color: var(--tinta);`;
 }
 
 /** O link com os números da equipe, para mandar para outra pessoa. */

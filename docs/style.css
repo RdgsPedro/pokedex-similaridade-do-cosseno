@@ -1853,7 +1853,7 @@ a.linha:hover .linha-nome {
     margin-bottom: 4px;
 }
 
-.como .painel{
+.como .painel {
     width: 100%;
 }
 
@@ -2174,4 +2174,20 @@ a.linha:hover .linha-nome {
     .conta-total strong {
         font-size: 2.4rem;
     }
+}
+
+/* =====================================================================
+   Etapa 7: acabamento
+   ===================================================================== */
+
+/* O rosa do tipo Psíquico fica um pouco mais claro: o texto escuro em cima dele
+   passa de 4,49 : 1 para 4,8 : 1 de contraste (o mínimo recomendado é 4,5 : 1). */
+:root {
+    --c-psiquico: #FA608F;
+}
+
+/* O aviso no fim da lista dos parecidos, quando aparecem menos de 5 */
+.vizinhos>.nota {
+    margin: 2px 0 0;
+    padding: 0 4px;
 }

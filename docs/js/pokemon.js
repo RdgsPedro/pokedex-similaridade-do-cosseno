@@ -97,7 +97,7 @@ export function mostrarPokemon(alvo, dados, id) {
 
   // As barras começam vazias e enchem logo depois de aparecer na tela (a transição está no CSS).
   requestAnimationFrame(() => requestAnimationFrame(() => {
-    alvo.querySelector(".status-lista").classList.add("cheia");
+    alvo.querySelector(".status-lista")?.classList.add("cheia"); // o ?. evita erro se a pessoa já trocou de página
   }));
 
   // Os parecidos: o alternador troca o modo, e o interruptor liga o filtro de geração.
@@ -189,6 +189,10 @@ async function mostrarParecidos(secao, dados, pokemon) {
     }
   }
 
+  // Parecido com cosseno 0 não tem nada em comum (acontece com 3 Pokémon no filtro de geração): fica fora da lista.
+  const semNadaEmComum = vizinhos.filter((vizinho) => vizinho.cos <= 0).length;
+  vizinhos = vizinhos.filter((vizinho) => vizinho.cos > 0);
+
   // Na barra do porquê, só abre espaço à esquerda do zero se alguma parcela da lista for negativa.
   const menorParcela = modo === "atributos"
     ? Math.min(0, ...vizinhos.flatMap((vizinho) => Object.values(vizinho.blocos)))
@@ -212,6 +216,11 @@ async function mostrarParecidos(secao, dados, pokemon) {
         <div class="vizinho-porque">${porque}</div>
       </li>`;
   }).join("");
+
+  if (semNadaEmComum) {
+    lista.insertAdjacentHTML("beforeend", `<li class="nota">Só ${vizinhos.length} Pokémon${soDaGeracao ? " da mesma geração" : ""}
+      têm ${modo === "descricao" ? "alguma palavra" : "algo"} em comum com ${escapar(pokemon.nome)}.</li>`);
+  }
 }
 
 /** O ângulo entre os dois vetores: se cos(θ) = c, então θ = arccos(c). */

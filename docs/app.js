@@ -12,6 +12,13 @@ import { escapar } from "./js/ui.js";
 const conteudo = document.querySelector("#conteudo");
 let dados = null;
 
+// O link "Pular para o conteúdo" só leva o foco para o conteúdo. Sem isto, ele trocaria o endereço para
+// #conteudo, e o site acharia que é uma página que não existe.
+document.querySelector(".pular").addEventListener("click", (evento) => {
+    evento.preventDefault();
+    conteudo.focus();
+});
+
 iniciar();
 
 async function iniciar() {
