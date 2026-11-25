@@ -1,0 +1,1362 @@
+/* =====================================================================
+   Parecidex: estilos do site
+   A ideia do visual: cartas de colecionar sobre papel quadriculado,
+   como num caderno de matemática. Cada tipo de Pokémon tem a sua cor.
+   Cada seção traz as próprias regras de celular, logo depois dela.
+   ===================================================================== */
+
+:root {
+    /* Cores da página */
+    --papel: #F5F8FC;
+    /* fundo, como papel quadriculado */
+    --quadriculado: #E2E9F2;
+    /* linhas finas do papel */
+    --quadriculado-forte: #CFDAE8;
+    /* linha mais forte a cada 5 quadrados */
+    --tinta: #1E2A4A;
+    /* texto e contornos */
+    --tinta-suave: #56627F;
+    /* texto secundário */
+    --carta: #FFFFFF;
+    /* fundo das cartas */
+    --marca-texto: #FF5C8A;
+    /* destaque: aba aberta e foco do teclado */
+
+    /* Cores dos 18 tipos. O texto em cima delas fica escuro (--tinta) ou
+     branco, o que der mais contraste (sempre pelo menos 4,5 : 1). */
+    --c-normal: #A8A77A;
+    --c-fogo: #EE8130;
+    --c-agua: #6390F0;
+    --c-planta: #7AC74C;
+    --c-eletrico: #F7D02C;
+    --c-gelo: #96D9D6;
+    --c-lutador: #C22E28;
+    --c-venenoso: #A33EA1;
+    --c-terrestre: #E2BF65;
+    --c-voador: #A98FF3;
+    --c-psiquico: #F95587;
+    --c-inseto: #A6B91A;
+    --c-pedra: #B6A136;
+    --c-fantasma: #735797;
+    --c-dragao: #6F35FC;
+    --c-sombrio: #705746;
+    --c-aco: #B7B7CE;
+    --c-fada: #D685AD;
+
+    /* Fontes: a pixelada só em títulos e números */
+    --fonte-titulo: "Jersey 10", ui-monospace, monospace;
+    --fonte-texto: "Atkinson Hyperlegible", system-ui, sans-serif;
+
+    --raio: 12px;
+    --contorno: 2px solid var(--tinta);
+}
+
+/* ---------------------------------------------------------------- base */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: var(--fonte-texto);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--tinta);
+    background-color: var(--papel);
+    /* O papel quadriculado: uma linha a cada 24 px e uma mais forte a cada 120 px */
+    background-image:
+        linear-gradient(var(--quadriculado-forte) 1px, transparent 1px),
+        linear-gradient(90deg, var(--quadriculado-forte) 1px, transparent 1px),
+        linear-gradient(var(--quadriculado) 1px, transparent 1px),
+        linear-gradient(90deg, var(--quadriculado) 1px, transparent 1px);
+    background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    width: min(100% - 32px, 1180px);
+    margin: 0 auto;
+    padding-bottom: 48px;
+}
+
+main:focus {
+    outline: none;
+}
+
+a {
+    color: inherit;
+}
+
+img {
+    display: block;
+}
+
+/* Foco do teclado bem visível em tudo que é clicável */
+:focus-visible {
+    outline: 3px solid var(--marca-texto);
+    outline-offset: 3px;
+}
+
+/* Link escondido que aparece com o Tab: pula direto para o conteúdo */
+.pular {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: 10;
+    padding: 10px 16px;
+    background: var(--tinta);
+    color: #FFFFFF;
+    border-radius: 8px;
+}
+
+.pular:focus {
+    top: 12px;
+}
+
+/* ---------------------------------------------------------------- topo */
+
+/* Três áreas: a marca, a busca (que chega na etapa 2) e o menu */
+.topo {
+    width: min(100% - 32px, 1180px);
+    margin: 0 auto;
+    padding: 20px 0 8px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "marca busca menu";
+    align-items: center;
+    gap: 12px 24px;
+}
+
+.marca {
+    grid-area: marca;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.marca-nome {
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 1.8rem + 2.6vw, 3.4rem);
+    line-height: 1;
+}
+
+.menu {
+    grid-area: menu;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.menu a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    background: var(--carta);
+}
+
+.menu a[aria-current="page"] {
+    background: var(--tinta);
+    color: #FFFFFF;
+}
+
+@media (max-width: 900px) {
+    .topo {
+        grid-template-columns: 1fr auto;
+        grid-template-areas: "marca menu" "busca busca";
+    }
+}
+
+@media (max-width: 560px) {
+    .topo {
+        grid-template-columns: 1fr;
+        grid-template-areas: "marca" "menu" "busca";
+    }
+
+    .menu a {
+        padding: 0 12px;
+    }
+}
+
+/* ---------------------------------------------------------------- página inicial */
+
+.intro {
+    max-width: 46ch;
+    margin: 8px 0 24px;
+    font-size: 1.125rem;
+    color: var(--tinta-suave);
+}
+
+/* Abas das regiões, como as abas de um fichário */
+.regioes {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding: 4px 2px 0;
+    margin: 0 -2px;
+    border-bottom: var(--contorno);
+}
+
+.regiao {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    min-height: 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6px 14px;
+    border: var(--contorno);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+    background: color-mix(in srgb, var(--carta) 55%, transparent);
+    text-decoration: none;
+    line-height: 1.15;
+}
+
+.regiao:hover {
+    background: var(--carta);
+}
+
+.regiao-nome {
+    font-weight: 700;
+}
+
+.regiao-faixa {
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+}
+
+.regiao[aria-current="page"] {
+    background: var(--carta);
+    box-shadow: inset 0 -5px 0 var(--marca-texto);
+}
+
+.secao-regiao {
+    padding-top: 28px;
+}
+
+.titulo-regiao {
+    margin: 0;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: clamp(2.8rem, 2rem + 3vw, 4rem);
+    line-height: 0.9;
+}
+
+.subtitulo {
+    margin: 8px 0 24px;
+    color: var(--tinta-suave);
+}
+
+.grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 560px) {
+    .grade {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+}
+
+/* ---------------------------------------------------------------- cartas */
+
+.carta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px 12px;
+    overflow: hidden;
+    color: var(--tinta);
+    text-decoration: none;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: var(--raio);
+    box-shadow: 0 3px 0 var(--tinta);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.carta:hover,
+.carta:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 var(--tinta);
+}
+
+.carta:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 var(--tinta);
+}
+
+/* A faixa no alto da carta tem a cor do tipo; com dois tipos, metade de cada */
+.carta-faixa {
+    align-self: stretch;
+    height: 10px;
+    margin: 0 -8px;
+    background: linear-gradient(90deg, var(--cor1) 50%, var(--cor2, var(--cor1)) 50%);
+    border-bottom: var(--contorno);
+}
+
+.carta-imagem {
+    width: 104px;
+    height: 104px;
+    margin-top: 10px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--cor1) 22%, var(--carta));
+}
+
+.carta-imagem img {
+    width: 96px;
+    height: 96px;
+    image-rendering: pixelated;
+    /* os sprites são pixel art: sem borrar */
+}
+
+.carta-numero {
+    margin-top: 6px;
+    font-family: var(--fonte-titulo);
+    font-size: 1.3rem;
+    line-height: 1;
+    color: var(--tinta-suave);
+}
+
+.carta-nome {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.carta-tipos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+/* As primeiras cartas chegam como se fossem distribuídas na mesa */
+.carta.distribuir {
+    animation: distribuir 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+    animation-delay: calc(var(--ordem) * 28ms);
+}
+
+@keyframes distribuir {
+    from {
+        opacity: 0;
+        transform: translateY(18px) rotate(-4deg) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------------------------------------------------------------- selos de tipo */
+
+.tipo {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.4;
+    background: var(--cor);
+    color: var(--cor-texto, var(--tinta));
+}
+
+.tipo-normal {
+    --cor: var(--c-normal);
+}
+
+.tipo-fogo {
+    --cor: var(--c-fogo);
+}
+
+.tipo-agua {
+    --cor: var(--c-agua);
+}
+
+.tipo-planta {
+    --cor: var(--c-planta);
+}
+
+.tipo-eletrico {
+    --cor: var(--c-eletrico);
+}
+
+.tipo-gelo {
+    --cor: var(--c-gelo);
+}
+
+.tipo-lutador {
+    --cor: var(--c-lutador);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-venenoso {
+    --cor: var(--c-venenoso);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-terrestre {
+    --cor: var(--c-terrestre);
+}
+
+.tipo-voador {
+    --cor: var(--c-voador);
+}
+
+.tipo-psiquico {
+    --cor: var(--c-psiquico);
+}
+
+.tipo-inseto {
+    --cor: var(--c-inseto);
+}
+
+.tipo-pedra {
+    --cor: var(--c-pedra);
+}
+
+.tipo-fantasma {
+    --cor: var(--c-fantasma);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-dragao {
+    --cor: var(--c-dragao);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-sombrio {
+    --cor: var(--c-sombrio);
+    --cor-texto: #FFFFFF;
+}
+
+.tipo-aco {
+    --cor: var(--c-aco);
+}
+
+.tipo-fada {
+    --cor: var(--c-fada);
+}
+
+/* ---------------------------------------------------------------- carregando, erro e em construção */
+
+.carregando {
+    min-height: 60vh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.carregando-sprite {
+    width: 192px;
+    height: 192px;
+    image-rendering: pixelated;
+    animation: pular 0.7s cubic-bezier(0.3, 0, 0.6, 1) infinite alternate;
+}
+
+.carregando-sombra {
+    width: 96px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--tinta);
+    opacity: 0.18;
+    animation: sombra 0.7s cubic-bezier(0.3, 0, 0.6, 1) infinite alternate;
+}
+
+.carregando p {
+    margin: 16px 0 0;
+    font-family: var(--fonte-titulo);
+    font-size: 1.9rem;
+}
+
+@keyframes pular {
+    to {
+        transform: translateY(-36px);
+    }
+}
+
+@keyframes sombra {
+    to {
+        transform: scale(0.6);
+        opacity: 0.08;
+    }
+}
+
+.erro,
+.em-breve {
+    max-width: 60ch;
+    margin: 48px auto;
+    padding: 24px;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: var(--raio);
+    box-shadow: 0 3px 0 var(--tinta);
+}
+
+.erro h1,
+.em-breve h1 {
+    margin: 0 0 12px;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: 2.4rem;
+    line-height: 1;
+}
+
+code {
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: var(--papel);
+    font-size: 0.9375em;
+}
+
+/* ---------------------------------------------------------------- rodapé */
+
+.rodape {
+    width: min(100% - 32px, 1180px);
+    margin: 0 auto;
+    padding: 24px 0 32px;
+    border-top: var(--contorno);
+    font-size: 0.875rem;
+    color: var(--tinta-suave);
+}
+
+.rodape p {
+    margin: 0 0 6px;
+    max-width: 80ch;
+}
+
+.aviso-exemplo {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: var(--carta);
+    border: 1px dashed var(--tinta-suave);
+}
+
+.aviso-exemplo[hidden] {
+    display: none;
+}
+
+/* ---------------------------------------------------------------- menos movimento */
+
+/* Quem pediu ao sistema para reduzir animações não vê pulos nem cartas voando */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* =====================================================================
+   Etapa 2: busca e filtro por tipo
+   ===================================================================== */
+
+/* ---------------------------------------------------------------- utilidades */
+
+/* Some da tela, mas o leitor de tela continua lendo */
+.oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- busca */
+
+.busca {
+    grid-area: busca;
+    position: relative;
+    justify-self: center;
+    width: min(100%, 440px);
+}
+
+.busca-campo {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 18px 0 46px;
+    border: var(--contorno);
+    border-radius: 999px;
+    font: inherit;
+    color: var(--tinta);
+    /* a lupa é um desenho em SVG dentro do próprio CSS */
+    background: var(--carta) no-repeat 16px center / 20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%231E2A4A' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='8.5' cy='8.5' r='6'/%3E%3Cpath d='M13 13l5 5'/%3E%3C/svg%3E");
+    box-shadow: 0 3px 0 var(--tinta);
+}
+
+.busca-campo::placeholder {
+    color: var(--tinta-suave);
+}
+
+.busca-campo:disabled {
+    opacity: 0.6;
+}
+
+.busca-lista {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    max-height: min(70vh, 480px);
+    overflow-y: auto;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: var(--raio);
+    box-shadow: 0 4px 0 var(--tinta);
+}
+
+.sugestao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.sugestao[aria-selected="true"] {
+    background: color-mix(in srgb, var(--marca-texto) 16%, var(--carta));
+}
+
+.sugestao .linha-imagem {
+    width: 52px;
+    height: 52px;
+}
+
+.sugestao .linha-imagem img {
+    width: 48px;
+    height: 48px;
+}
+
+.sugestao-vazia {
+    padding: 12px;
+    color: var(--tinta-suave);
+}
+
+@media (max-width: 900px) {
+    .busca {
+        width: 100%;
+    }
+}
+
+/* ---------------------------------------------------------------- Pokémon em linha (busca e, depois, os parecidos) */
+
+.linha {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.linha-imagem {
+    flex: 0 0 auto;
+    width: 88px;
+    height: 88px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--cor1) 22%, var(--carta));
+}
+
+.linha-imagem img {
+    width: 96px;
+    height: 96px;
+    max-width: none;
+    image-rendering: pixelated;
+}
+
+.linha-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    line-height: 1.2;
+}
+
+.linha-numero {
+    font-family: var(--fonte-titulo);
+    font-size: 1.15rem;
+    color: var(--tinta-suave);
+}
+
+.linha-nome {
+    font-weight: 700;
+    font-size: 1.0625rem;
+}
+
+.linha-tipos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+a.linha:hover .linha-nome {
+    text-decoration: underline;
+}
+
+@media (max-width: 560px) {
+    .linha-imagem {
+        width: 72px;
+        height: 72px;
+    }
+}
+
+/* ---------------------------------------------------------------- filtro por tipo */
+
+.filtro-tipos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    row-gap: 15px;
+    margin: 20px 0 4px;
+}
+
+.filtro {
+    min-height: 36px;
+    padding: 0 14px;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.filtro-todos {
+    background: var(--carta);
+    border-color: var(--tinta);
+    color: var(--tinta);
+}
+
+.filtro-todos[aria-pressed="true"] {
+    background: var(--tinta);
+    color: #FFFFFF;
+}
+
+.filtro[aria-pressed="true"] {
+    border-color: var(--tinta);
+    box-shadow: 0 3px 0 var(--tinta);
+}
+
+/* Com um tipo escolhido, os outros ficam apagados */
+.filtro-tipos:has(.tipo[aria-pressed="true"]) .tipo:not([aria-pressed="true"]) {
+    opacity: 0.4;
+}
+
+/* Em tela de toque, área de toque de 44 px */
+@media (pointer: coarse) {
+    .filtro {
+        min-height: 44px;
+    }
+}
+
+/* No celular os tipos ficam numa linha só, que rola para o lado */
+@media (max-width: 560px) {
+    .filtro-tipos {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 6px;
+    }
+
+    .filtro {
+        flex: 0 0 auto;
+    }
+}
+
+/* Região sem nenhum Pokémon do tipo escolhido */
+.vazio {
+    padding: 20px 24px;
+    background: var(--carta);
+    border: 2px dashed var(--tinta);
+    border-radius: var(--raio);
+}
+
+
+
+/* =====================================================================
+   Etapa 3: página do Pokémon
+   ===================================================================== */
+
+/* Texto pequeno e cinza, para observações */
+.nota {
+    color: var(--tinta-suave);
+    font-size: 0.9375rem;
+}
+
+.botao-redondo {
+    width: 44px;
+    height: 44px;
+    border: var(--contorno);
+    border-radius: 50%;
+    background: var(--carta);
+    color: var(--tinta);
+    font: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 2px 0 var(--tinta);
+}
+
+.botao-redondo:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 var(--tinta);
+}
+
+/* ---------------------------------------------------------------- anterior e próximo */
+
+.passos {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 8px 0 16px;
+}
+
+.passo {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 16px;
+    border: var(--contorno);
+    border-radius: 999px;
+    background: var(--carta);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.passo:hover {
+    box-shadow: 0 3px 0 var(--tinta);
+}
+
+@media (max-width: 560px) {
+    .passo {
+        padding: 0 12px;
+        font-size: 0.875rem;
+    }
+}
+
+/* ---------------------------------------------------------------- a ficha (carta grande) */
+
+.ficha {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(220px, 380px) 1fr;
+    align-items: center;
+    gap: 24px 48px;
+    padding: 40px 32px 32px;
+    overflow: hidden;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: 18px;
+    box-shadow: 0 4px 0 var(--tinta);
+}
+
+/* A faixa da carta grande, com a cor dos tipos */
+.ficha::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 16px;
+    background: linear-gradient(90deg, var(--cor1) 50%, var(--cor2, var(--cor1)) 50%);
+    border-bottom: var(--contorno);
+}
+
+.ficha-arte {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--cor1) 24%, var(--carta));
+}
+
+.ficha-arte img {
+    width: 90%;
+    height: auto;
+}
+
+.ficha-numero {
+    margin: 0;
+    font-family: var(--fonte-titulo);
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--tinta-suave);
+}
+
+.ficha-nome {
+    margin: 0;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: clamp(3.2rem, 2rem + 5vw, 5.6rem);
+    line-height: 0.85;
+    overflow-wrap: anywhere;
+}
+
+.ficha-categoria {
+    margin: 8px 0 14px;
+    font-size: 1.125rem;
+    color: var(--tinta-suave);
+}
+
+.ficha-tipos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.ficha-tipos .tipo {
+    padding: 4px 14px;
+    font-size: 1rem;
+}
+
+.selo-especial {
+    padding: 3px 12px;
+    border: 2px dashed var(--tinta);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.9375rem;
+}
+
+.ficha-medidas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 36px;
+    margin: 22px 0 0;
+}
+
+.ficha-medidas dt {
+    font-size: 0.875rem;
+    color: var(--tinta-suave);
+}
+
+.ficha-medidas dd {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+@media (max-width: 720px) {
+    .ficha {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        padding: 36px 20px 24px;
+        text-align: center;
+    }
+
+    .ficha-arte {
+        width: min(100%, 280px);
+    }
+
+    .ficha-tipos,
+    .ficha-medidas {
+        justify-content: center;
+    }
+}
+
+/* ---------------------------------------------------------------- painéis de status e textos */
+
+.ficha-colunas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.painel {
+    padding: 20px 22px;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: var(--raio);
+    box-shadow: 0 3px 0 var(--tinta);
+}
+
+.painel h2 {
+    margin: 0 0 14px;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1;
+}
+
+@media (max-width: 720px) {
+    .ficha-colunas {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Barras de status: começam vazias e enchem quando a página ganha a classe "cheia" */
+.status-lista {
+    display: grid;
+    gap: 9px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.status-lista li {
+    display: grid;
+    grid-template-columns: 96px 1fr 40px;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-nome {
+    font-weight: 700;
+    font-size: 0.9375rem;
+}
+
+.status-barra {
+    height: 16px;
+    overflow: hidden;
+    border: var(--contorno);
+    border-radius: 999px;
+    background: var(--papel);
+}
+
+.status-preenchido {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--cor1);
+    border-right: var(--contorno);
+    transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.status-lista.cheia .status-preenchido {
+    width: var(--largura);
+}
+
+.status-valor {
+    font-family: var(--fonte-titulo);
+    font-size: 1.45rem;
+    line-height: 1;
+    text-align: right;
+}
+
+.status-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 14px 0 0;
+    padding-top: 10px;
+    border-top: 2px dashed var(--quadriculado-forte);
+    font-weight: 700;
+}
+
+.status-total strong {
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+/* Textos da Pokédex */
+.texto-pokedex {
+    min-height: 5.6em;
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+.texto-navegacao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.texto-navegacao[hidden] {
+    display: none;
+}
+
+.texto-contador {
+    min-width: 5ch;
+    font-family: var(--fonte-titulo);
+    font-size: 1.35rem;
+    text-align: center;
+}
+
+.textos .nota {
+    margin: 18px 0 0;
+}
+
+/* =====================================================================
+   Etapa 4: os mais parecidos
+   ===================================================================== */
+
+.parecidos { margin-top: 44px; }
+
+.titulo-secao {
+  margin: 0 0 16px;
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3.2rem);
+  line-height: 0.95;
+}
+
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+}
+
+/* Os dois botões do modo, juntos numa pílula */
+.alternador {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--carta);
+  border: var(--contorno);
+  border-radius: 999px;
+}
+.alternador button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tinta);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.alternador button[aria-pressed="true"] { background: var(--tinta); color: #FFFFFF; }
+
+/* O filtro de geração: uma caixa de marcar desenhada como interruptor */
+.interruptor {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.interruptor[hidden] { display: none; }
+.interruptor input {
+  appearance: none;
+  position: relative;
+  flex: 0 0 auto;
+  width: 50px;
+  height: 30px;
+  margin: 0;
+  border: var(--contorno);
+  border-radius: 999px;
+  background: var(--carta);
+  cursor: pointer;
+}
+.interruptor input::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--tinta);
+  transition: transform 0.15s ease;
+}
+.interruptor input:checked { background: var(--marca-texto); }
+.interruptor input:checked::before { transform: translateX(20px); }
+
+.explicacao {
+  max-width: 72ch;
+  margin: 14px 0 18px;
+  color: var(--tinta-suave);
+}
+
+/* ---------------------------------------------------------------- a lista */
+
+.vizinhos {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: posicao;
+}
+
+/* Cada parecido é uma linha com 4 áreas: posição, Pokémon, cosseno e o porquê */
+.vizinho {
+  counter-increment: posicao;
+  display: grid;
+  grid-template-columns: 36px minmax(210px, 1.1fr) 150px minmax(240px, 1.6fr);
+  grid-template-areas: "posicao pokemon cosseno porque";
+  align-items: center;
+  gap: 12px 20px;
+  padding: 12px 18px;
+  background: var(--carta);
+  border: var(--contorno);
+  border-radius: var(--raio);
+  box-shadow: 0 3px 0 var(--tinta);
+}
+/* O número da posição (1 a 5) vem do contador do CSS */
+.vizinho::before {
+  content: counter(posicao);
+  grid-area: posicao;
+  font-family: var(--fonte-titulo);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--tinta-suave);
+  text-align: center;
+}
+.vizinho .linha { grid-area: pokemon; }
+.vizinho .linha-nome { overflow-wrap: anywhere; } /* nome comprido quebra a linha em vez de invadir o cosseno */
+
+.vizinho-cosseno {
+  grid-area: cosseno;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cosseno-valor {
+  display: block;
+  font-family: var(--fonte-titulo);
+  font-size: 2.2rem;
+  line-height: 0.9;
+}
+.cosseno-angulo {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--tinta-suave);
+}
+
+/* O desenho do ângulo: base escura, vetor rosa e arco verde */
+.mostrador { flex: 0 0 auto; width: 52px; height: 52px; }
+.mostrador path { fill: none; stroke-linecap: round; }
+.mostrador-base { stroke: var(--tinta); stroke-width: 3; }
+.mostrador-vetor { stroke: var(--marca-texto); stroke-width: 3.5; }
+.mostrador-arco { stroke: #22A699; stroke-width: 2.5; }
+
+.vizinho-porque { grid-area: porque; min-width: 0; }
+
+/* Barra com as três parcelas do cosseno no modo atributos */
+.barra-blocos {
+  position: relative;
+  height: 20px;
+  overflow: hidden;
+  border: var(--contorno);
+  border-radius: 6px;
+  background: var(--papel);
+}
+.parte {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.parte-status { background: #3A5BD9; }
+.parte-tamanho { background: #22A699; }
+.parte-tipos { background: var(--marca-texto); }
+.parte + .parte { box-shadow: inset 2px 0 0 var(--carta); }
+/* parcela negativa: listrada */
+.parte.negativa {
+  background-image: repeating-linear-gradient(-45deg, transparent 0 3px, rgba(255, 255, 255, 0.75) 3px 6px);
+}
+.barra-zero {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--tinta);
+}
+
+.legenda-blocos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+.amostra {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+/* Palavras em comum no modo descrição */
+.palavras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.palavras li {
+  padding: 3px 10px;
+  border: 2px solid var(--tinta);
+  border-radius: 999px;
+  background: var(--papel);
+  font-weight: 700;
+}
+.palavra-peso { font-weight: 400; color: var(--tinta-suave); font-size: 0.875rem; }
+
+/* Em telas médias, o porquê desce para uma linha própria */
+@media (max-width: 900px) {
+  .vizinho {
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    grid-template-areas: "posicao pokemon cosseno" "porque porque porque";
+  }
+}
+
+/* No celular não cabe tudo numa linha só: o cosseno desce para baixo do Pokémon */
+@media (max-width: 560px) {
+  .vizinho {
+    grid-template-columns: 24px minmax(0, 1fr);
+    grid-template-areas: "posicao pokemon" "cosseno cosseno" "porque porque";
+    gap: 14px 12px;
+    padding: 12px;
+  }
+  .vizinho-cosseno > span { display: flex; align-items: baseline; gap: 10px; } /* valor e ângulo lado a lado */
+  .alternador { display: flex; width: 100%; }
+  .alternador button { flex: 1 1 0; padding: 6px 10px; line-height: 1.2; }
+  .mostrador { width: 40px; height: 40px; }
+  .cosseno-valor { font-size: 1.8rem; }
+}

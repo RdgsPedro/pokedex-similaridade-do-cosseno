@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Dois vetores saindo do mesmo ponto e o ângulo entre eles: a ideia do cosseno -->
+  <rect x="2" y="2" width="44" height="44" rx="11" fill="#1E2A4A"/>
+  <g fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 36 L36 30 M29.2 27.6 L36 30 L31.2 35.3" stroke="#FFFFFF"/>
+    <path d="M12 36 L28 13 M21.3 15.7 L28 13 L27.9 20.2" stroke="#FF5C8A"/>
+  </g>
+  <path d="M21.7 33.6 A10 10 0 0 0 17.7 27.8" fill="none" stroke="#9FE3D7" stroke-width="3" stroke-linecap="round"/>
+</svg>
