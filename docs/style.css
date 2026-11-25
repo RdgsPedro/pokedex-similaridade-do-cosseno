@@ -1121,3 +1121,242 @@ a.linha:hover .linha-nome {
 .textos .nota {
     margin: 18px 0 0;
 }
+
+/* =====================================================================
+   Etapa 4: os mais parecidos
+   ===================================================================== */
+
+.parecidos { margin-top: 44px; }
+
+.titulo-secao {
+  margin: 0 0 16px;
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3.2rem);
+  line-height: 0.95;
+}
+
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+}
+
+/* Os dois botões do modo, juntos numa pílula */
+.alternador {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--carta);
+  border: var(--contorno);
+  border-radius: 999px;
+}
+.alternador button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tinta);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.alternador button[aria-pressed="true"] { background: var(--tinta); color: #FFFFFF; }
+
+/* O filtro de geração: uma caixa de marcar desenhada como interruptor */
+.interruptor {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.interruptor[hidden] { display: none; }
+.interruptor input {
+  appearance: none;
+  position: relative;
+  flex: 0 0 auto;
+  width: 50px;
+  height: 30px;
+  margin: 0;
+  border: var(--contorno);
+  border-radius: 999px;
+  background: var(--carta);
+  cursor: pointer;
+}
+.interruptor input::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--tinta);
+  transition: transform 0.15s ease;
+}
+.interruptor input:checked { background: var(--marca-texto); }
+.interruptor input:checked::before { transform: translateX(20px); }
+
+.explicacao {
+  max-width: 72ch;
+  margin: 14px 0 18px;
+  color: var(--tinta-suave);
+}
+
+/* ---------------------------------------------------------------- a lista */
+
+.vizinhos {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: posicao;
+}
+
+/* Cada parecido é uma linha com 4 áreas: posição, Pokémon, cosseno e o porquê */
+.vizinho {
+  counter-increment: posicao;
+  display: grid;
+  grid-template-columns: 36px minmax(210px, 1.1fr) 150px minmax(240px, 1.6fr);
+  grid-template-areas: "posicao pokemon cosseno porque";
+  align-items: center;
+  gap: 12px 20px;
+  padding: 12px 18px;
+  background: var(--carta);
+  border: var(--contorno);
+  border-radius: var(--raio);
+  box-shadow: 0 3px 0 var(--tinta);
+}
+/* O número da posição (1 a 5) vem do contador do CSS */
+.vizinho::before {
+  content: counter(posicao);
+  grid-area: posicao;
+  font-family: var(--fonte-titulo);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--tinta-suave);
+  text-align: center;
+}
+.vizinho .linha { grid-area: pokemon; }
+.vizinho .linha-nome { overflow-wrap: anywhere; } /* nome comprido quebra a linha em vez de invadir o cosseno */
+
+.vizinho-cosseno {
+  grid-area: cosseno;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cosseno-valor {
+  display: block;
+  font-family: var(--fonte-titulo);
+  font-size: 2.2rem;
+  line-height: 0.9;
+}
+.cosseno-angulo {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--tinta-suave);
+}
+
+/* O desenho do ângulo: base escura, vetor rosa e arco verde */
+.mostrador { flex: 0 0 auto; width: 52px; height: 52px; }
+.mostrador path { fill: none; stroke-linecap: round; }
+.mostrador-base { stroke: var(--tinta); stroke-width: 3; }
+.mostrador-vetor { stroke: var(--marca-texto); stroke-width: 3.5; }
+.mostrador-arco { stroke: #22A699; stroke-width: 2.5; }
+
+.vizinho-porque { grid-area: porque; min-width: 0; }
+
+/* Barra com as três parcelas do cosseno no modo atributos */
+.barra-blocos {
+  position: relative;
+  height: 20px;
+  overflow: hidden;
+  border: var(--contorno);
+  border-radius: 6px;
+  background: var(--papel);
+}
+.parte {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.parte-status { background: #3A5BD9; }
+.parte-tamanho { background: #22A699; }
+.parte-tipos { background: var(--marca-texto); }
+.parte + .parte { box-shadow: inset 2px 0 0 var(--carta); }
+/* parcela negativa: listrada */
+.parte.negativa {
+  background-image: repeating-linear-gradient(-45deg, transparent 0 3px, rgba(255, 255, 255, 0.75) 3px 6px);
+}
+.barra-zero {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--tinta);
+}
+
+.legenda-blocos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+.amostra {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+/* Palavras em comum no modo descrição */
+.palavras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.palavras li {
+  padding: 3px 10px;
+  border: 2px solid var(--tinta);
+  border-radius: 999px;
+  background: var(--papel);
+  font-weight: 700;
+}
+.palavra-peso { font-weight: 400; color: var(--tinta-suave); font-size: 0.875rem; }
+
+/* Em telas médias, o porquê desce para uma linha própria */
+@media (max-width: 900px) {
+  .vizinho {
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    grid-template-areas: "posicao pokemon cosseno" "porque porque porque";
+  }
+}
+
+/* No celular não cabe tudo numa linha só: o cosseno desce para baixo do Pokémon */
+@media (max-width: 560px) {
+  .vizinho {
+    grid-template-columns: 24px minmax(0, 1fr);
+    grid-template-areas: "posicao pokemon" "cosseno cosseno" "porque porque";
+    gap: 14px 12px;
+    padding: 12px;
+  }
+  .vizinho-cosseno > span { display: flex; align-items: baseline; gap: 10px; } /* valor e ângulo lado a lado */
+  .alternador { display: flex; width: 100%; }
+  .alternador button { flex: 1 1 0; padding: 6px 10px; line-height: 1.2; }
+  .mostrador { width: 40px; height: 40px; }
+  .cosseno-valor { font-size: 1.8rem; }
+}

@@ -46,3 +46,16 @@ export async function carregarPokemon() {
   }
   return dados;
 }
+
+// O vizinhos_geracao.json só é baixado quando alguém liga o filtro de geração.
+// A "promessa" fica guardada para não baixar o mesmo arquivo duas vezes.
+let promessaGeracao = null;
+
+/** vizinhos_geracao.json: os parecidos só entre Pokémon da mesma geração. */
+export function carregarVizinhosGeracao() {
+  if (!promessaGeracao) {
+    promessaGeracao = baixarJson("dados_front/vizinhos_geracao.json")
+      .catch((erro) => { promessaGeracao = null; throw erro; }); // se falhar, tenta de novo da próxima vez
+  }
+  return promessaGeracao;
+}
