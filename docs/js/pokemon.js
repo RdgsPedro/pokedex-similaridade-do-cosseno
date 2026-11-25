@@ -2,6 +2,7 @@
 
 import { REGIOES, carregarVizinhosGeracao } from "./dados.js";
 import { numero, decimal, escapar, seloDoTipo, coresDoPokemon, pokemonEmLinha } from "./ui.js";
+import { estaNaEquipe, adicionarNaEquipe, removerDaEquipe } from "./equipe.js";
 
 const NOMES_STATUS = {
   hp: "HP", ataque: "Ataque", defesa: "Defesa",
@@ -53,6 +54,7 @@ export function mostrarPokemon(alvo, dados, id) {
             <div><dt>Altura</dt><dd>${decimal(pokemon.altura_m, 1)} m</dd></div>
             <div><dt>Peso</dt><dd>${decimal(pokemon.peso_kg, 1)} kg</dd></div>
           </dl>
+          <div class="ficha-acoes"></div>
         </div>
       </article>
 
@@ -91,6 +93,7 @@ export function mostrarPokemon(alvo, dados, id) {
     </div>`;
 
   mostrarTextos(alvo, pokemon);
+  mostrarBotaoEquipe(alvo.querySelector(".ficha-acoes"), pokemon);
 
   // As barras começam vazias e enchem logo depois de aparecer na tela (a transição está no CSS).
   requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -275,4 +278,29 @@ function palavrasEmComum(palavras) {
     <ul class="palavras" aria-label="Palavras em comum que mais pesaram">
       ${palavras.map((p) => `<li><span lang="en">${escapar(p.palavra)}</span> <span class="palavra-peso">${decimal(p.contribuicao, 3)}</span></li>`).join("")}
     </ul>`;
+}
+
+
+// ---------------------------------------------------------------- a equipe
+
+/** O botão de pôr ou tirar o Pokémon da equipe, com o aviso embaixo. */
+function mostrarBotaoEquipe(acoes, pokemon) {
+  const naEquipe = estaNaEquipe(pokemon.id);
+  acoes.innerHTML = `
+    <button type="button" class="botao${naEquipe ? " botao-secundario" : ""}">
+      ${naEquipe ? "Tirar da equipe" : "Adicionar à equipe"}
+    </button>
+    <p class="aviso-equipe" role="status">${naEquipe ? `Está na <a href="#/equipe">sua equipe</a>.` : ""}</p>`;
+
+  acoes.querySelector("button").addEventListener("click", () => {
+    if (naEquipe) {
+      removerDaEquipe(pokemon.id);
+    } else if (adicionarNaEquipe(pokemon.id) === "cheia") {
+      acoes.querySelector(".aviso-equipe").innerHTML =
+        `A equipe já tem 6 Pokémon. Tire um na <a href="#/equipe">página da equipe</a> para abrir vaga.`;
+      return;
+    }
+    mostrarBotaoEquipe(acoes, pokemon);
+    acoes.querySelector("button").focus(); // o botão é desenhado de novo; o foco do teclado continua nele
+  });
 }

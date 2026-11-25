@@ -5,6 +5,8 @@ import { carregarPokemon } from "./js/dados.js";
 import { mostrarPokedex } from "./js/pokedex.js";
 import { mostrarPokemon } from "./js/pokemon.js";
 import { iniciarBusca } from "./js/busca.js";
+import { mostrarEquipe, idsDoLink, atualizarContador } from "./js/equipe.js";
+import { mostrarComoFunciona } from "./js/como-funciona.js";
 import { escapar } from "./js/ui.js";
 
 const conteudo = document.querySelector("#conteudo");
@@ -26,6 +28,7 @@ async function iniciar() {
     document.querySelector(".aviso-exemplo").hidden = !dados.exemplo;
 
     iniciarBusca(dados);
+    atualizarContador(); // o número de Pokémon da equipe, ao lado de "Equipe" no menu
     window.addEventListener("hashchange", () => mostrarPagina(true));
     mostrarPagina(false);
 }
@@ -43,13 +46,20 @@ function mostrarPagina(trocou) {
     } else if (pagina === "pokemon") {
         mostrarPokemon(conteudo, dados, Number(parametro));
         marcarMenu(""); // a página do Pokémon não tem botão no menu
+    } else if (pagina === "equipe") {
+        // "#/equipe" é a sua equipe; "#/equipe/9-130-131" é uma equipe que veio de um link
+        mostrarEquipe(conteudo, dados, parametro ? idsDoLink(parametro, dados) : null);
+        marcarMenu("equipe");
+    } else if (pagina === "como-funciona") {
+        mostrarComoFunciona(conteudo, dados);
+        marcarMenu("como-funciona");
     } else {
-        mostrarEmBreve();
-        marcarMenu(pagina);
+        mostrarNaoEncontrada();
+        marcarMenu("");
     }
 
     if (trocou) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0, behavior: "instant" }); // pula direto para o topo, sem a rolagem animada
         conteudo.focus({ preventScroll: true }); // quem usa leitor de tela "chega" na página nova
     }
 }
@@ -85,11 +95,12 @@ function mostrarErro(erro) {
     </section>`;
 }
 
-function mostrarEmBreve() {
+/** Endereço que não existe, como #/abc. */
+function mostrarNaoEncontrada() {
     conteudo.innerHTML = `
     <section class="em-breve">
-      <h1>Em construção</h1>
-      <p>Esta página chega nas próximas etapas.</p>
+      <h1>Página não encontrada</h1>
+      <p>Este endereço não existe no site.</p>
       <p><a href="#/">Voltar para a Pokédex</a></p>
     </section>`;
 }

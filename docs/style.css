@@ -748,7 +748,6 @@ a.linha:hover .linha-nome {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    row-gap: 15px;
     margin: 20px 0 4px;
 }
 
@@ -1126,237 +1125,1053 @@ a.linha:hover .linha-nome {
    Etapa 4: os mais parecidos
    ===================================================================== */
 
-.parecidos { margin-top: 44px; }
+.parecidos {
+    margin-top: 44px;
+}
 
 .titulo-secao {
-  margin: 0 0 16px;
-  font-family: var(--fonte-titulo);
-  font-weight: 400;
-  font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3.2rem);
-  line-height: 0.95;
+    margin: 0 0 16px;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3.2rem);
+    line-height: 0.95;
 }
 
 .controles {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
 }
 
 /* Os dois botões do modo, juntos numa pílula */
 .alternador {
-  display: inline-flex;
-  gap: 4px;
-  padding: 4px;
-  background: var(--carta);
-  border: var(--contorno);
-  border-radius: 999px;
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: 999px;
 }
+
 .alternador button {
-  min-height: 44px;
-  padding: 0 18px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--tinta);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--tinta);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
 }
-.alternador button[aria-pressed="true"] { background: var(--tinta); color: #FFFFFF; }
+
+.alternador button[aria-pressed="true"] {
+    background: var(--tinta);
+    color: #FFFFFF;
+}
 
 /* O filtro de geração: uma caixa de marcar desenhada como interruptor */
 .interruptor {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  font-weight: 700;
-  cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    font-weight: 700;
+    cursor: pointer;
 }
-.interruptor[hidden] { display: none; }
+
+.interruptor[hidden] {
+    display: none;
+}
+
 .interruptor input {
-  appearance: none;
-  position: relative;
-  flex: 0 0 auto;
-  width: 50px;
-  height: 30px;
-  margin: 0;
-  border: var(--contorno);
-  border-radius: 999px;
-  background: var(--carta);
-  cursor: pointer;
+    appearance: none;
+    position: relative;
+    flex: 0 0 auto;
+    width: 50px;
+    height: 30px;
+    margin: 0;
+    border: var(--contorno);
+    border-radius: 999px;
+    background: var(--carta);
+    cursor: pointer;
 }
+
 .interruptor input::before {
-  content: "";
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--tinta);
-  transition: transform 0.15s ease;
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--tinta);
+    transition: transform 0.15s ease;
 }
-.interruptor input:checked { background: var(--marca-texto); }
-.interruptor input:checked::before { transform: translateX(20px); }
+
+.interruptor input:checked {
+    background: var(--marca-texto);
+}
+
+.interruptor input:checked::before {
+    transform: translateX(20px);
+}
 
 .explicacao {
-  max-width: 72ch;
-  margin: 14px 0 18px;
-  color: var(--tinta-suave);
+    max-width: 72ch;
+    margin: 14px 0 18px;
+    color: var(--tinta-suave);
 }
 
 /* ---------------------------------------------------------------- a lista */
 
 .vizinhos {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: posicao;
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: posicao;
 }
 
 /* Cada parecido é uma linha com 4 áreas: posição, Pokémon, cosseno e o porquê */
 .vizinho {
-  counter-increment: posicao;
-  display: grid;
-  grid-template-columns: 36px minmax(210px, 1.1fr) 150px minmax(240px, 1.6fr);
-  grid-template-areas: "posicao pokemon cosseno porque";
-  align-items: center;
-  gap: 12px 20px;
-  padding: 12px 18px;
-  background: var(--carta);
-  border: var(--contorno);
-  border-radius: var(--raio);
-  box-shadow: 0 3px 0 var(--tinta);
+    counter-increment: posicao;
+    display: grid;
+    grid-template-columns: 36px minmax(210px, 1.1fr) 150px minmax(240px, 1.6fr);
+    grid-template-areas: "posicao pokemon cosseno porque";
+    align-items: center;
+    gap: 12px 20px;
+    padding: 12px 18px;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: var(--raio);
+    box-shadow: 0 3px 0 var(--tinta);
 }
+
 /* O número da posição (1 a 5) vem do contador do CSS */
 .vizinho::before {
-  content: counter(posicao);
-  grid-area: posicao;
-  font-family: var(--fonte-titulo);
-  font-size: 2.2rem;
-  line-height: 1;
-  color: var(--tinta-suave);
-  text-align: center;
+    content: counter(posicao);
+    grid-area: posicao;
+    font-family: var(--fonte-titulo);
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--tinta-suave);
+    text-align: center;
 }
-.vizinho .linha { grid-area: pokemon; }
-.vizinho .linha-nome { overflow-wrap: anywhere; } /* nome comprido quebra a linha em vez de invadir o cosseno */
+
+.vizinho .linha {
+    grid-area: pokemon;
+}
+
+.vizinho .linha-nome {
+    overflow-wrap: anywhere;
+}
+
+/* nome comprido quebra a linha em vez de invadir o cosseno */
 
 .vizinho-cosseno {
-  grid-area: cosseno;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    grid-area: cosseno;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
+
 .cosseno-valor {
-  display: block;
-  font-family: var(--fonte-titulo);
-  font-size: 2.2rem;
-  line-height: 0.9;
+    display: block;
+    font-family: var(--fonte-titulo);
+    font-size: 2.2rem;
+    line-height: 0.9;
 }
+
 .cosseno-angulo {
-  display: block;
-  font-size: 0.8125rem;
-  color: var(--tinta-suave);
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
 }
 
 /* O desenho do ângulo: base escura, vetor rosa e arco verde */
-.mostrador { flex: 0 0 auto; width: 52px; height: 52px; }
-.mostrador path { fill: none; stroke-linecap: round; }
-.mostrador-base { stroke: var(--tinta); stroke-width: 3; }
-.mostrador-vetor { stroke: var(--marca-texto); stroke-width: 3.5; }
-.mostrador-arco { stroke: #22A699; stroke-width: 2.5; }
+.mostrador {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+}
 
-.vizinho-porque { grid-area: porque; min-width: 0; }
+.mostrador path {
+    fill: none;
+    stroke-linecap: round;
+}
+
+.mostrador-base {
+    stroke: var(--tinta);
+    stroke-width: 3;
+}
+
+.mostrador-vetor {
+    stroke: var(--marca-texto);
+    stroke-width: 3.5;
+}
+
+.mostrador-arco {
+    stroke: #22A699;
+    stroke-width: 2.5;
+}
+
+.vizinho-porque {
+    grid-area: porque;
+    min-width: 0;
+}
 
 /* Barra com as três parcelas do cosseno no modo atributos */
 .barra-blocos {
-  position: relative;
-  height: 20px;
-  overflow: hidden;
-  border: var(--contorno);
-  border-radius: 6px;
-  background: var(--papel);
+    position: relative;
+    height: 20px;
+    overflow: hidden;
+    border: var(--contorno);
+    border-radius: 6px;
+    background: var(--papel);
 }
+
 .parte {
-  position: absolute;
-  top: 0;
-  bottom: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
 }
-.parte-status { background: #3A5BD9; }
-.parte-tamanho { background: #22A699; }
-.parte-tipos { background: var(--marca-texto); }
-.parte + .parte { box-shadow: inset 2px 0 0 var(--carta); }
+
+.parte-status {
+    background: #3A5BD9;
+}
+
+.parte-tamanho {
+    background: #22A699;
+}
+
+.parte-tipos {
+    background: var(--marca-texto);
+}
+
+.parte+.parte {
+    box-shadow: inset 2px 0 0 var(--carta);
+}
+
 /* parcela negativa: listrada */
 .parte.negativa {
-  background-image: repeating-linear-gradient(-45deg, transparent 0 3px, rgba(255, 255, 255, 0.75) 3px 6px);
+    background-image: repeating-linear-gradient(-45deg, transparent 0 3px, rgba(255, 255, 255, 0.75) 3px 6px);
 }
+
 .barra-zero {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  margin-left: -1px;
-  background: var(--tinta);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    margin-left: -1px;
+    background: var(--tinta);
 }
 
 .legenda-blocos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 14px;
-  margin: 6px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.875rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.875rem;
 }
+
 .amostra {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-right: 5px;
-  border-radius: 2px;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    border-radius: 2px;
 }
 
 /* Palavras em comum no modo descrição */
 .palavras {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
+
 .palavras li {
-  padding: 3px 10px;
-  border: 2px solid var(--tinta);
-  border-radius: 999px;
-  background: var(--papel);
-  font-weight: 700;
+    padding: 3px 10px;
+    border: 2px solid var(--tinta);
+    border-radius: 999px;
+    background: var(--papel);
+    font-weight: 700;
 }
-.palavra-peso { font-weight: 400; color: var(--tinta-suave); font-size: 0.875rem; }
+
+.palavra-peso {
+    font-weight: 400;
+    color: var(--tinta-suave);
+    font-size: 0.875rem;
+}
 
 /* Em telas médias, o porquê desce para uma linha própria */
 @media (max-width: 900px) {
-  .vizinho {
-    grid-template-columns: 30px minmax(0, 1fr) auto;
-    grid-template-areas: "posicao pokemon cosseno" "porque porque porque";
-  }
+    .vizinho {
+        grid-template-columns: 30px minmax(0, 1fr) auto;
+        grid-template-areas: "posicao pokemon cosseno" "porque porque porque";
+    }
 }
 
 /* No celular não cabe tudo numa linha só: o cosseno desce para baixo do Pokémon */
 @media (max-width: 560px) {
-  .vizinho {
-    grid-template-columns: 24px minmax(0, 1fr);
-    grid-template-areas: "posicao pokemon" "cosseno cosseno" "porque porque";
-    gap: 14px 12px;
-    padding: 12px;
-  }
-  .vizinho-cosseno > span { display: flex; align-items: baseline; gap: 10px; } /* valor e ângulo lado a lado */
-  .alternador { display: flex; width: 100%; }
-  .alternador button { flex: 1 1 0; padding: 6px 10px; line-height: 1.2; }
-  .mostrador { width: 40px; height: 40px; }
-  .cosseno-valor { font-size: 1.8rem; }
+    .vizinho {
+        grid-template-columns: 24px minmax(0, 1fr);
+        grid-template-areas: "posicao pokemon" "cosseno cosseno" "porque porque";
+        gap: 14px 12px;
+        padding: 12px;
+    }
+
+    .vizinho-cosseno>span {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+    }
+
+    /* valor e ângulo lado a lado */
+    .alternador {
+        display: flex;
+        width: 100%;
+    }
+
+    .alternador button {
+        flex: 1 1 0;
+        padding: 6px 10px;
+        line-height: 1.2;
+    }
+
+    .mostrador {
+        width: 40px;
+        height: 40px;
+    }
+
+    .cosseno-valor {
+        font-size: 1.8rem;
+    }
+}
+
+/* =====================================================================
+   Etapa 5: a equipe
+   ===================================================================== */
+
+/* O número de Pokémon da equipe, ao lado de "Equipe" no menu */
+.contador-equipe {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--marca-texto);
+    color: var(--tinta);
+    font-size: 0.8125rem;
+}
+
+.contador-equipe[hidden] {
+    display: none;
+}
+
+/* Botões de texto: o principal é escuro; o secundário, branco */
+.botao {
+    min-height: 44px;
+    padding: 0 20px;
+    border: var(--contorno);
+    border-radius: 999px;
+    background: var(--tinta);
+    color: #FFFFFF;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 0 var(--marca-texto);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 var(--marca-texto);
+}
+
+.botao:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 var(--marca-texto);
+}
+
+.botao-secundario {
+    background: var(--carta);
+    color: var(--tinta);
+    box-shadow: 0 3px 0 var(--tinta);
+}
+
+.botao-secundario:hover {
+    box-shadow: 0 5px 0 var(--tinta);
+}
+
+.botao-pequeno {
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 0.9375rem;
+}
+
+/* O botão da equipe na ficha do Pokémon */
+.ficha-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    margin-top: 18px;
+}
+
+.aviso-equipe {
+    margin: 0;
+    color: var(--tinta-suave);
+}
+
+.aviso-equipe:empty {
+    display: none;
+}
+
+/* Título das páginas da equipe e do "Como funciona" */
+.titulo-pagina {
+    margin: 8px 0 0;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: clamp(2.8rem, 2rem + 3vw, 4rem);
+    line-height: 0.9;
+}
+
+.titulo-pagina:focus {
+    outline: none;
+}
+
+/* Aviso de equipe que veio de um link */
+.aviso-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    padding: 12px 16px;
+    background: var(--carta);
+    border: 2px dashed var(--tinta);
+    border-radius: var(--raio);
+}
+
+.aviso-link p {
+    margin: 0;
+    font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- as 6 vagas */
+
+.vagas {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.vaga {
+    position: relative;
+    overflow: hidden;
+    background: var(--carta);
+    border: var(--contorno);
+    border-radius: var(--raio);
+    box-shadow: 0 3px 0 var(--tinta);
+}
+
+/* A faixa de cima, com a cor dos tipos (metade de cada cor quando são dois) */
+.vaga::before {
+    content: "";
+    display: block;
+    height: 10px;
+    background: linear-gradient(90deg, var(--cor1) 50%, var(--cor2, var(--cor1)) 50%);
+    border-bottom: var(--contorno);
+}
+
+.vaga-pokemon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 8px 14px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.vaga-pokemon img {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+}
+
+.vaga-numero {
+    font-family: var(--fonte-titulo);
+    font-size: 1.2rem;
+    color: var(--tinta-suave);
+}
+
+.vaga-nome {
+    font-weight: 700;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.vaga-tipos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+}
+
+.botao-remover {
+    position: absolute;
+    top: 16px;
+    right: 6px;
+    width: 40px;
+    height: 40px;
+    border: var(--contorno);
+    border-radius: 50%;
+    background: var(--carta);
+    color: var(--tinta);
+    font: inherit;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.botao-remover:hover {
+    background: var(--marca-texto);
+}
+
+.vaga-livre {
+    background: transparent;
+    border-style: dashed;
+    box-shadow: none;
+}
+
+.vaga-livre::before {
+    display: none;
+}
+
+.vaga-livre a {
+    min-height: 210px;
+    display: grid;
+    place-content: center;
+    padding: 8px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--tinta-suave);
+    text-decoration: none;
+}
+
+.vaga-livre span {
+    display: block;
+    font-weight: 400;
+    font-size: 0.875rem;
+}
+
+/* ---------------------------------------------------------------- matriz, média e sugestões */
+
+.analise-grade {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* A matriz rola para o lado se não couber (no celular) */
+.matriz-rolagem {
+    overflow-x: auto;
+}
+
+.matriz {
+    border-collapse: separate;
+    border-spacing: 4px;
+}
+
+.matriz th img {
+    width: 48px;
+    height: 48px;
+    image-rendering: pixelated;
+}
+
+.matriz td {
+    min-width: 56px;
+    height: 48px;
+    padding: 0 6px;
+    border-radius: 8px;
+    text-align: center;
+    font-family: var(--fonte-titulo);
+    font-size: 1.25rem;
+}
+
+.media-valor {
+    margin: 0;
+    font-family: var(--fonte-titulo);
+    font-size: 5.5rem;
+    line-height: 0.85;
+}
+
+.sugestoes {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sugestao-equipe {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 14px;
+    border: var(--contorno);
+    border-radius: var(--raio);
+}
+
+.sugestao-cos {
+    font-family: var(--fonte-titulo);
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+/* O link para compartilhar */
+.compartilhar {
+    margin-top: 24px;
+}
+
+.compartilhar label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.compartilhar-linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.compartilhar input {
+    flex: 1 1 280px;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 16px;
+    border: var(--contorno);
+    border-radius: 999px;
+    background: var(--carta);
+    font: inherit;
+    color: var(--tinta);
+}
+
+@media (max-width: 900px) {
+    .vagas {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .analise-grade {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* minmax(0, ...) deixa a matriz rolar em vez de alargar a página */
+}
+
+@media (max-width: 720px) {
+    .ficha-acoes {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 560px) {
+    .vagas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .vaga-livre a {
+        min-height: 160px;
+    }
+
+    .sugestao-equipe {
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding: 8px 10px;
+    }
+
+    .sugestao-equipe .botao {
+        grid-column: 1 / -1;
+    }
+
+    .media-valor {
+        font-size: 4.5rem;
+    }
+
+    /* A matriz 6 × 6 cabe na largura do celular */
+    .analise .painel {
+        padding: 16px;
+    }
+
+    .matriz {
+        border-spacing: 3px;
+    }
+
+    .matriz th img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .matriz td {
+        min-width: 40px;
+        height: 40px;
+        padding: 0 2px;
+        font-size: 1rem;
+    }
+}
+
+
+/* =====================================================================
+   Etapa 6: "Como funciona"
+   ===================================================================== */
+
+.como {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    max-width: 100%;
+}
+
+.como .subtitulo {
+    max-width: 68ch;
+    margin-bottom: 4px;
+}
+
+.como .painel{
+    width: 100%;
+}
+
+.como .painel p,
+.como .painel li {
+    max-width: 72ch;
+}
+
+.como .painel>p {
+    margin: 0 0 12px;
+}
+
+.como .painel>p:last-child {
+    margin-bottom: 0;
+}
+
+/* Tabelas que rolam para o lado no celular em vez de alargar a página */
+.rolagem {
+    overflow-x: auto;
+    margin: 0 0 14px;
+}
+
+/* As fórmulas (escritas em MathML, que o navegador desenha sozinho) */
+.formula {
+    margin: 0 0 14px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    background: var(--papel);
+    border: 2px dashed var(--quadriculado-forte);
+    border-radius: 10px;
+}
+
+.formula math {
+    font-size: 1.35rem;
+}
+
+/* Duas fórmulas lado a lado (o vetor x e o u), uma embaixo da outra no celular */
+.formula-dupla {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px 48px;
+}
+
+.formula-dupla math {
+    margin: 0;
+}
+
+/* Os três desenhos: 0°, 90° e 180° */
+.angulos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin: 4px 0 16px;
+}
+
+.angulo {
+    margin: 0;
+    text-align: center;
+}
+
+.angulo svg {
+    width: 110px;
+    height: auto;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.angulo path {
+    fill: none;
+    stroke-linecap: round;
+}
+
+.seta-base {
+    stroke: var(--tinta);
+    stroke-width: 3;
+}
+
+.seta-outra {
+    stroke: var(--marca-texto);
+    stroke-width: 3.5;
+}
+
+.seta-arco {
+    stroke: #22A699;
+    stroke-width: 2.5;
+}
+
+.angulo circle {
+    fill: var(--tinta);
+}
+
+.angulo figcaption {
+    font-size: 0.9375rem;
+    line-height: 1.35;
+}
+
+.angulo figcaption strong {
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin-right: 4px;
+}
+
+/* Tabelas simples */
+.tabela {
+    border-collapse: collapse;
+    min-width: 100%;
+}
+
+.tabela th,
+.tabela td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--quadriculado-forte);
+    text-align: left;
+    vertical-align: top;
+}
+
+.tabela thead th {
+    color: var(--tinta-suave);
+    font-size: 0.9375rem;
+}
+
+.tabela tbody th {
+    white-space: nowrap;
+}
+
+.tabela-numeros td {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.tabela-numeros thead th {
+    text-align: right;
+}
+
+/* ---------------------------------------------------------------- "Faça a conta" */
+
+.conta {
+    border-color: var(--tinta);
+    box-shadow: 0 3px 0 var(--marca-texto);
+}
+
+.conta-escolha {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+    margin: 6px 0 18px;
+}
+
+.conta-escolha label {
+    font-weight: 700;
+}
+
+.conta-escolha select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 14px;
+    border: var(--contorno);
+    border-radius: 999px;
+    background: var(--carta);
+    color: var(--tinta);
+    font: inherit;
+    cursor: pointer;
+}
+
+.conta-resultado {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+}
+
+.conta-bloco h3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin: 8px 0 6px;
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.conta-soma {
+    padding: 3px 12px;
+    border: 2px solid var(--tinta);
+    border-radius: 999px;
+    background: var(--papel);
+    font-family: var(--fonte-texto);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.tabela-conta {
+    min-width: 0;
+}
+
+/* a tabela da conta fica do tamanho dos números */
+.tabela-conta th,
+.tabela-conta td {
+    padding: 6px 10px;
+}
+
+.tabela-conta thead th {
+    font-weight: 400;
+}
+
+.conta-produto th,
+.conta-produto td {
+    font-weight: 700;
+    border-top: 2px solid var(--tinta);
+    border-bottom: 0;
+}
+
+.conta-bloco .nota {
+    margin: -6px 0 6px;
+}
+
+.conta-total {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 14px;
+    margin: 10px 0 0;
+    padding: 14px 16px;
+    background: color-mix(in srgb, var(--marca-texto) 10%, var(--carta));
+    border: var(--contorno);
+    border-radius: 10px;
+}
+
+.conta-total strong {
+    font-family: var(--fonte-titulo);
+    font-weight: 400;
+    font-size: 3rem;
+    line-height: 0.8;
+}
+
+/* ---------------------------------------------------------------- de onde vêm os dados */
+
+.caminho {
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+    counter-reset: passo;
+}
+
+.caminho li {
+    counter-increment: passo;
+    position: relative;
+    min-height: 34px;
+    margin-bottom: 10px;
+    padding-left: 46px;
+}
+
+.caminho li::before {
+    content: counter(passo);
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--tinta);
+    color: #FFFFFF;
+    font-family: var(--fonte-titulo);
+    font-size: 1.3rem;
+}
+
+@media (max-width: 560px) {
+
+    /* A tabela dos blocos vira uma lista: cada bloco com o nome em cima */
+    .tabela-blocos thead {
+        display: none;
+    }
+
+    .tabela-blocos tr {
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--quadriculado-forte);
+    }
+
+    .tabela-blocos th,
+    .tabela-blocos td {
+        display: block;
+        padding: 0;
+        border: 0;
+    }
+
+    .conta-escolha {
+        grid-auto-flow: row;
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+    }
+
+    .conta-escolha select {
+        margin-bottom: 8px;
+    }
+
+    .formula math {
+        font-size: 1.1rem;
+    }
+
+    .angulos {
+        gap: 8px 18px;
+    }
+
+    .angulo svg {
+        width: 84px;
+    }
+
+    .conta-total strong {
+        font-size: 2.4rem;
+    }
 }

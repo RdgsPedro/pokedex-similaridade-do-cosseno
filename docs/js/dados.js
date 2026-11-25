@@ -59,3 +59,16 @@ export function carregarVizinhosGeracao() {
   }
   return promessaGeracao;
 }
+
+
+// O perfil.json também só é baixado quando precisa: na página da equipe (e, depois, no "Como funciona").
+let promessaPerfil = null;
+
+/** perfil.json: os blocos de cada Pokémon, para o site montar os vetores de atributos. */
+export function carregarPerfil() {
+  if (!promessaPerfil) {
+    promessaPerfil = baixarJson("dados_front/perfil.json")
+      .catch((erro) => { promessaPerfil = null; throw erro; }); // se falhar, tenta de novo da próxima vez
+  }
+  return promessaPerfil;
+}
